@@ -30,16 +30,18 @@ function update() {
         gp.buttons[i] = Number(pads[i+4]);
     }
         ctx.clearRect(0,0,w,h);
+    var axis1 = maxAxis(gp.axes[0], gp.axes[1]);
+    var axis2 = maxAxis(gp.axes[2], gp.axes[3]);
     ctx.lineWidth = "2"; 
         circle(150,200, 100,1);
-        circle(150+gp.axes[0]*50,200+gp.axes[1]*50, 30,2);
+        circle(150+axis1[0]*50,200+axis1[1]*50, 30,2);
     ctx.lineWidth = "30"; 
-        line(  150+gp.axes[0]*50,200+gp.axes[1]*50, 150,200);
+        line(  150+axis1[0]*50,200+axis1[1]*50, 150,200);
     ctx.lineWidth = "2"; 
         circle(500,400, 100,1);
-        circle(500+gp.axes[2]*50,400+gp.axes[3]*50,30,2);
+        circle(500+axis2[0]*50,400+axis2[1]*50,30,2);
     ctx.lineWidth = "30"; 
-        line(  500+gp.axes[2]*50,400+gp.axes[3]*50, 500,400);
+        line(  500+axis2[0]*50,400+axis2[1]*50, 500,400);
     
     for(var i=0;i<gp.buttons.length;i++) {
         ctx.lineWidth = "2"; circle(buttonpos[i][0],buttonpos[i][1],25,1);
@@ -62,4 +64,13 @@ function circle(x,y,r,type) {
         ctx.stroke();
     if((type-(type%2))/2)
         ctx.fill();
+}
+
+function maxAxis(x, y) {
+    if(Math.sqrt(x**2+y**2) > 1) {
+        var ang = Math.atan2(y,x);
+        return [Math.cos(ang), Math.sin(ang)];
+    } else {
+        return [x, y];
+    }
 }
